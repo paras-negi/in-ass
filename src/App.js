@@ -5,35 +5,50 @@ import Modal from "./components/Modal";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
-  const [open, setOpen] = useState(false)
-  const [stateForm, setstateForm] = useState({})
+  // const [users, setUsers] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [usersObj, setUsersObj] = useState({});
+
+  const [stateForm, setstateForm] = useState({});
+
   useEffect(() => {
     getUsersData();
   }, []);
 
   const getUsersData = () => {
+    let tempObj = {};
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
-        setUsers(res);
+        res.forEach((d) => {
+          tempObj[d.id] = d;
+        });
+        // setUsers(res);
+        setUsersObj(tempObj);
         setLoading(false);
       });
   };
+
   const editInfo = (d) => {
     setstateForm({
-      name:d.name,
-      website:d.website,
-      email:d.email,
-      phone:d.phone
-    })
-    setOpen(!open)
-  }
-  const handelClose=()=>{
-    setOpen(!open)
-    setstateForm({})
-  }
+      name: d.name,
+      website: d.website,
+      email: d.email,
+      phone: d.phone,
+      id: d.id
+    });
+    setOpen(!open);
+  };
+
+  const handelClose = () => {
+    setOpen(!open);
+    setstateForm({});
+  };
+
+ const updateUsersObj=(obj)=>{
+  setUsersObj(obj);
+}
+
   return loading ? (
     <div className="loader-main">
       <div class="spinner">
@@ -43,10 +58,12 @@ function App() {
     </div>
   ) : (
     <div className="App">
-      {users?.length
-        ? users.map((user, index) => <Card user={user} key={index} editInfo={editInfo} />)
+      {Object.values(usersObj)?.length
+        ? Object.values(usersObj).map((user, index) => (
+            <Card user={user} key={index} editInfo={editInfo} users={usersObj} updateUsers={updateUsersObj}/>
+          ))
         : null}
-      <Modal open={open} handelClose={handelClose} stateForm={stateForm}/>
+      <Modal open={open} handelClose={handelClose} stateForm={stateForm} onSubmit={updateUsersObj} users={usersObj}/>
     </div>
   );
 }
