@@ -10,18 +10,17 @@ export default function Modal({
   users,
 }) {
   const [userInfo, setUserInfo] = useState({});
-
+  
   useEffect(() => {
     setUserInfo(stateForm);
-  }, []);
-
-  if (!open) {
-    return null;
-  }
+  }, [stateForm]);
 
   const handleChange = (e) => {
+      e.preventDefault();
+      console.log(e);
     const { name, value } = e.target;
-    setUserInfo({ ...userInfo, [name]: value });
+    const copyUserInfo = {...userInfo};
+    setUserInfo({ ...copyUserInfo, [name]: value });
   };
 
   const updateFormData = () => {
@@ -29,6 +28,12 @@ export default function Modal({
     usersCopy[userInfo.id] = { ...usersCopy[userInfo.id], ...userInfo };
     onSubmit(usersCopy);
   };
+
+  if (!open) {
+    return null;
+  }
+
+//   onClick={onSubmit}
 
   return (
     <div className="modal">
@@ -40,7 +45,8 @@ export default function Modal({
           </button>
         </div>
         <div className="modal-body">
-          <form className="form" onClick={onSubmit}>
+
+          <form className="form">
             <div className="form-group">
               <label>
                 Name: <Require />
@@ -50,21 +56,24 @@ export default function Modal({
                 className="form-control"
                 name="name"
                 value={userInfo?.name}
-                handleChange={handleChange}
+                onChange={handleChange}
               />
             </div>
             <div className="form-group">
+
               <label>
                 Email: <Require />
               </label>
+
               <input
                 type="email"
                 className="form-control"
                 name="email"
                 value={userInfo?.email}
-                handleChange={handleChange}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label>
                 Phone: <Require />
@@ -74,23 +83,26 @@ export default function Modal({
                 className="form-control"
                 name="phone"
                 value={userInfo?.phone}
-                handleChange={handleChange}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label>
                 Website: <Require />
               </label>
+
               <input
                 type="text"
                 className="form-control"
                 name="website"
                 value={userInfo?.website}
-                handleChange={handleChange}
+                onChange={handleChange}
               />
             </div>
           </form>
         </div>
+
         <div className="modal-footer">
           <button
             type="button"
@@ -114,7 +126,9 @@ export default function Modal({
             Ok
           </button>
         </div>
+
       </div>
+
       <div className="modal-bg" onClick={handelClose}></div>
     </div>
   );

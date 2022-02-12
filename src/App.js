@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import Card from "./components/Card";
 import "./App.css";
 import Modal from "./components/Modal";
+import { logDOM } from "@testing-library/react";
 
 function App() {
   const [loading, setLoading] = useState(true);
   // const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);
   const [usersObj, setUsersObj] = useState({});
-
   const [stateForm, setstateForm] = useState({});
 
   useEffect(() => {
@@ -30,6 +30,7 @@ function App() {
   };
 
   const editInfo = (d) => {
+    // console.log(d);
     setstateForm({
       name: d.name,
       website: d.website,
@@ -37,6 +38,7 @@ function App() {
       phone: d.phone,
       id: d.id
     });
+
     setOpen(!open);
   };
 
@@ -48,6 +50,8 @@ function App() {
  const updateUsersObj=(obj)=>{
   setUsersObj(obj);
 }
+
+// console.log(stateForm);
 
   return loading ? (
     <div className="loader-main">
@@ -63,6 +67,7 @@ function App() {
             <Card user={user} key={index} editInfo={editInfo} users={usersObj} updateUsers={updateUsersObj}/>
           ))
         : null}
+
       <Modal open={open} handelClose={handelClose} stateForm={stateForm} onSubmit={updateUsersObj} users={usersObj}/>
     </div>
   );
