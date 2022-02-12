@@ -1,0 +1,1 @@
+export default function Require() { return <span className="mandatory">*</span> }
