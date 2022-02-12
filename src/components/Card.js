@@ -1,10 +1,15 @@
 import React from "react";
 
-export default function Card({ user, key }) {
+export default function Card({ user, key, users, setUserInfo}) {
+
+
+
+
+
+
   return (
     <div className="card-container" key={key}>
       <div className="card-main">
-
         <div className="img-container">
           <img
             src={`https://avatars.dicebear.com/v2/avataaars/${user.name}.svg?options[mood][]=happy`}
@@ -33,8 +38,6 @@ export default function Card({ user, key }) {
 
         <div className="card-bottom"> adjkshadkj</div>
       </div>
-
-      
     </div>
   );
 }

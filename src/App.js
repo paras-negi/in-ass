@@ -20,6 +20,10 @@ function App() {
       });
   };
 
+  const updateUserData =(updatedInfo)=>{
+    setUsers(updatedInfo)
+  }
+
   return loading ? (
     <div className="loader-main">
       <div class="spinner">
@@ -30,7 +34,7 @@ function App() {
   ) : (
     <div className="App">
       {users?.length
-        ? users.map((user, index) => <Card user={user} key={index} />)
+        ? users.map((user, index) => <Card user={user} key={index} updateUserData={updateUserData} data={users}/>)
         : null}
     </div>
   );
