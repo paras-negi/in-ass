@@ -6,15 +6,22 @@ import {
   MailIco,
   PhoneIco,
   WebIco,
-  HeartIcoRed
+  HeartIcoRed,
 } from "./icon";
 
 export default function Card({ user, key, editInfo, users, updateUsers }) {
-
   const deleteUser = (id) => {
     const copyUsers = { ...users };
     if (id in copyUsers) {
       delete copyUsers[id];
+    }
+    updateUsers(copyUsers);
+  };
+
+  const updateFavouriteItem = (id) => {
+    const copyUsers = { ...users };
+    if (id in copyUsers) {
+      copyUsers[id]["isFavourite"] = !copyUsers[id]["isFavourite"];
     }
     updateUsers(copyUsers);
   };
@@ -51,9 +58,11 @@ export default function Card({ user, key, editInfo, users, updateUsers }) {
         <div className="card-bottom">
           <ul>
             <li className="heart-ico">
-              <button type="button">
-                <HeartIco />
-                {/* <HeartIcoRed/> */}
+              <button
+                type="button"
+                onClick={() => updateFavouriteItem(user?.id)}
+              >
+                {user.isFavourite ? <HeartIcoRed /> : <HeartIco />}
               </button>
             </li>
 
@@ -68,7 +77,6 @@ export default function Card({ user, key, editInfo, users, updateUsers }) {
                 <DeleteIco />
               </button>
             </li>
-
           </ul>
         </div>
       </div>

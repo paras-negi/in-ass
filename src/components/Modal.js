@@ -10,16 +10,15 @@ export default function Modal({
   users,
 }) {
   const [userInfo, setUserInfo] = useState({});
-  
+
   useEffect(() => {
     setUserInfo(stateForm);
   }, [stateForm]);
 
   const handleChange = (e) => {
-      e.preventDefault();
-      console.log(e);
+    e.preventDefault();
     const { name, value } = e.target;
-    const copyUserInfo = {...userInfo};
+    const copyUserInfo = { ...userInfo };
     setUserInfo({ ...copyUserInfo, [name]: value });
   };
 
@@ -33,8 +32,6 @@ export default function Modal({
     return null;
   }
 
-//   onClick={onSubmit}
-
   return (
     <div className="modal">
       <div className="modal-content">
@@ -45,8 +42,9 @@ export default function Modal({
           </button>
         </div>
         <div className="modal-body">
-
-          <form className="form">
+          <form
+            className="form"
+          >
             <div className="form-group">
               <label>
                 Name: <Require />
@@ -60,7 +58,6 @@ export default function Modal({
               />
             </div>
             <div className="form-group">
-
               <label>
                 Email: <Require />
               </label>
@@ -126,7 +123,6 @@ export default function Modal({
             Ok
           </button>
         </div>
-
       </div>
 
       <div className="modal-bg" onClick={handelClose}></div>

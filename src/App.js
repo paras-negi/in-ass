@@ -11,6 +11,7 @@ function App() {
   const [usersObj, setUsersObj] = useState({});
   const [stateForm, setstateForm] = useState({});
 
+
   useEffect(() => {
     getUsersData();
   }, []);
@@ -21,7 +22,7 @@ function App() {
       .then((res) => res.json())
       .then((res) => {
         res.forEach((d) => {
-          tempObj[d.id] = d;
+          tempObj[d.id] = {...d, isFavourite: false};
         });
         // setUsers(res);
         setUsersObj(tempObj);
@@ -36,7 +37,7 @@ function App() {
       website: d.website,
       email: d.email,
       phone: d.phone,
-      id: d.id
+      id: d.id,
     });
 
     setOpen(!open);
@@ -47,11 +48,11 @@ function App() {
     setstateForm({});
   };
 
- const updateUsersObj=(obj)=>{
-  setUsersObj(obj);
-}
+  const updateUsersObj = (obj) => {
+    setUsersObj(obj);
+  };
 
-// console.log(stateForm);
+  console.log(usersObj);
 
   return loading ? (
     <div className="loader-main">
@@ -64,11 +65,23 @@ function App() {
     <div className="App">
       {Object.values(usersObj)?.length
         ? Object.values(usersObj).map((user, index) => (
-            <Card user={user} key={index} editInfo={editInfo} users={usersObj} updateUsers={updateUsersObj}/>
+            <Card
+              user={user}
+              key={index}
+              editInfo={editInfo}
+              users={usersObj}
+              updateUsers={updateUsersObj}
+            />
           ))
         : null}
 
-      <Modal open={open} handelClose={handelClose} stateForm={stateForm} onSubmit={updateUsersObj} users={usersObj}/>
+      <Modal
+        open={open}
+        handelClose={handelClose}
+        stateForm={stateForm}
+        onSubmit={updateUsersObj}
+        users={usersObj}
+      />
     </div>
   );
 }
